@@ -1,0 +1,50 @@
+﻿<ion-view title="Parcours">
+
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+  <ion-content data-tap-disabled="true">
+    <div id="opacityMask" class="hidden"></div>
+    <canvas id="canvas"></canvas>
+    <div id="notSupported" class="hidden">Votre navigateur ne supporte pas WebGL... <div style="font-size:smaller;padding-top:10px;">essayer IE11, Chrome ou Firefox</div></div>
+    <div id="controlPanel">
+      <div id="controlsZone">
+        <div id="leftPart">
+
+          <div style="display:block;">
+            <label>Musées:</label>
+            <select id="ddlRecommended" style="width: 290px; height: 25px">
+              <option value="wp.0=43.70915179,7.26954701&wp.1=43.69765927,7.2774058">musee</option>
+            </select>
+            <a id="lnkGoThere1" href="#">y aller!</a>
+          </div>
+          <div style="display:block;padding-top:20px;">
+            <label>depuis: </label><input id="txtFrom" style="width: 290px" type="text" />
+          </div>
+          <div style="display:block;">
+            <label>à: </label><input id="txtTo" style="width: 290px; " type="text" /> <a id="lnkGoThere2" href="#">y aller!</a>
+          </div>
+          <div style="display:block;">
+            <div id="divErrors" style="height:60px;" />
+          </div>
+        </div>
+        <div id="rightPart">
+
+
+
+        </div>
+      </div>
+      <div class="tag">
+        <img id="btnPlay" class="mediaButton" ng-src="img/icones/play.png" alt="play" />
+        <img id="btnPause" class="mediaButton" ng-src="img/icones/pause.png" alt="pause" />
+        <img id="btnFastForward" class="mediaButton" ng-src="img/icones/fastForward.png" alt="speed" /><div id="divPlaybackSpeed" style="display:inline;position:absolute;">1x</div>
+        <img id="btnOptions" class="mediaButton" style="margin-left:20px;" ng-src="img/icones/options.png" alt="options..." />
+      </div>
+
+
+    </div>
+
+  </ion-content>
+
+</ion-view>
