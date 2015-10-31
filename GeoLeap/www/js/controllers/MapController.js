@@ -19,38 +19,22 @@ angular.module('casa').controller('MapController',
       InstructionsService
       ) {
         //
-
-
-        /* TODO
-        http://forum.ionicframework.com/t/ionic-app-caching-images/3488/15
-      <img ng-cache ng-src="{{data.image}}" />
-      ImgCache.isCached(src, function(path, success) {
-
-                if (success) {
-                    ImgCache.useCachedFile(el);
-                } else {
-                    ImgCache.cacheFile(src, function() {
-                        ImgCache.useCachedFile(el);
-                    });
-                }
-            });
-       */
         angular.extend($scope, {
             center: {
                 lng: 7.20424272,
                 lat: 43.83021812,
                 zoom: 12
             },
-                defaults: {
-                    tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
-                    maxZoom: 18,
-                    zoomControlPosition: 'bottomleft'
-                },
-            vttPaths: { }
+            defaults: {
+                tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
+                maxZoom: 18,
+                zoomControlPosition: 'bottomleft'
+            },
+            vttPaths: {}
         });
         $scope.$on("$ionicView.loaded", function (e) {
-           
-            $scope.markers = { };
+
+            $scope.markers = {};
             $scope.locations = LocationsService.savedLocations;
             $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
                 $scope.vttPaths = data;
@@ -62,7 +46,7 @@ angular.module('casa').controller('MapController',
             $scope.goTo(0);
             $scope.loadPaths();
         });
-           
+
         /*
     "p1": {
         "color": "red",
@@ -71,24 +55,45 @@ angular.module('casa').controller('MapController',
             { "lat": 51.50, "lng": -0.082 },
             { "lat": 48.83, "lng": 2.37 },
             { "lat": 41.91, "lng": 12.48 }
-        ],
+        ],"ALT_MAXI": 280.0, "DIFFICULTE": "Vert", "ALT_DEP": 280.0, "NUM_FFC": "03", "ID_NCA": "0606503", "DENIVELE": 38.0, "DISTANCE": 3.6},
+{"NOM": "Le Tour du Mont Chauve", "INSEE": "06006", "DEPART": 
+"Avenue Joseph Bailet / Parking Saint Rosalie", "COMMUNE": "ASPREMONT",
         "message": "<h3>Route from London to Rome</h3><p>Distance: 1862km</p>"
     }
         */
         $scope.loadPaths = function loadPaths() {
             $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
-             
-                $scope.vttPaths = {};
+
+                $scope.vttPaths = {};//
                 for (var i = 0; i < data.docs.length; i++) {
-                    for (var j = 0; j < data.docs[i].geometry.coordinates.length; j++) {
-                    var parcours = data.docs[i].geometry.coordinates[j];
+                    //for (var j = 0; j < data.docs[i].geometry.coordinates.length; j++) {
+
+
+                    var parcours = data.docs[i].geometry.coordinates[0];
                     var latlong = parcours[0];
-                    
-                    $scope.vttPaths["p" + i] = {weight:8, color:"green", message:"<p>Distance: 4.9km</p>"};
-                    $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })
-                    }
+
+                    /*NEARLY THERE $scope.vttPaths["p" + i] = {
+                        weight: 42, color: "green", message: "<h3>" + data.docs[i].NOM +
+                            "</h3><p>Commune: " + data.docs[i].COMMUNE + "</p><p>Distance: " + data.docs[i].DISTANCE + "km</p><p>Départ: "
+                            + data.docs[i].DEPART + "</p><p>Altitude maximum: "
+                            + data.docs[i].ALT_MAXI + "m</p><p>Difficulté: " + data.docs[i].DIFFICULTE + ", dénivelé: " + data.docs[i].DENIVELE + "</p>"
+                    };
+                    $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })*/
+                    //}
+                    $scope.markers[i] = {
+                        lat: latlong[1],
+                        lng: latlong[0],
+                        message: "<span><h3>" + data.docs[i].NOM +
+                            "</h3><p>Commune: " + data.docs[i].COMMUNE + "</p><p>Distance: " + data.docs[i].DISTANCE + "km</p><p>Départ: "
+                            + data.docs[i].DEPART + "</p><p>Altitude maximum: "
+                            + data.docs[i].ALT_MAXI + "m</p><p>Difficulté: " + data.docs[i].DIFFICULTE + ", dénivelé: " + data.docs[i].DENIVELE + "</p></span><br />",
+                        icon: local_icons.purple_icon,
+                        focus: true,
+                        draggable: false,
+                        getMessageScope: function () { return $scope; }
+                    };
                 }
-                
+
             });
         };
         var Location = function () {
@@ -112,7 +117,7 @@ angular.module('casa').controller('MapController',
             if (destinationUrl === 'undefined') {
                 console.log("popupClick url undefined");
             } else {
-                $location.path(destinationUrl);
+               // $location.path(destinationUrl);
             }
         }
         // icones markers
@@ -177,16 +182,11 @@ angular.module('casa').controller('MapController',
 
             var poi = LocationsService.savedLocations[locationKey];
 
-            /*$scope.map.center = {
-                lat: poi.lat,
-                lng: poi.lng,
-                zoom: 12
-            };*/
             // 
             $scope.markers[locationKey] = {
                 lat: poi.lat,
                 lng: poi.lng,
-                message: '<span><a ng-click="popupClick(\'' + poi.url + '\')"><img ng-src="' + poi.vignette + '"></img><h3>' + poi.name + '</h3><br />' + poi.sousTitre + '</a></span><br />',
+                message: '<span><img ng-src="' + poi.vignette + '"></img><h3>' + poi.name + '</h3><br />' + poi.sousTitre + '</span><br />',
                 icon: eval(poi.icon),
                 focus: true,
                 draggable: false,
@@ -201,13 +201,11 @@ angular.module('casa').controller('MapController',
         $scope.show = function (locationKey) {
 
             var poi = LocationsService.savedLocations[locationKey];
-
-            //console.log("redMarker " + redMarker);icon: {iconUrl: 'img/icones/' + poi.icon}
             $scope.markers[locationKey] = {
                 lat: poi.lat,
                 lng: poi.lng,
                 icon: eval(poi.icon),
-                message: '<span><a ng-click="popupClick(\'' + poi.url + '\')"><img ng-click="popupClick(\'' + poi.url + '\')" ng-src="' + poi.vignette + '"></img><h3>' + poi.name + '</h3><br />' + poi.sousTitre + '</a></span><br />',
+                message: '<span><img ng-click="popupClick(\'' + poi.url + '\')" ng-src="' + poi.vignette + '"></img><h3>' + poi.name + '</h3><br />' + poi.sousTitre + '</span><br />',
                 focus: false,
                 draggable: false,
                 getMessageScope: function () { return $scope; }
