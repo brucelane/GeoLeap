@@ -34,69 +34,69 @@ angular.module('casa').controller('MapController',
                     });
                 }
             });
+       */
         angular.extend($scope, {
             center: {
                 lng: 7.20424272,
                 lat: 43.83021812,
                 zoom: 12
             },
-            paths: {
-                p1: {
-                    color: '#F00',
-                    weight: 3,
-                    latlngs: [{ l*/
+                defaults: {
+                    tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
+                    maxZoom: 18,
+                    zoomControlPosition: 'bottomleft'
+                },
+            vttPaths: { }
+        });
+        $scope.$on("$ionicView.loaded", function (e) {
+           
+            $scope.markers = { };
+            $scope.locations = LocationsService.savedLocations;
+            $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
+                $scope.vttPaths = data;
+            });
+            for (var i = LocationsService.savedLocations.length - 1; i >= 0; i--) {
+                $scope.show(i);
+            };
 
-      /**
-       * Once state loaded, get put map on scope.
-       */
-        $scope.$on("$stateChangeSuccess", function () {
-
-            
-                $scope.locations = LocationsService.savedLocations;
-
-                $scope.map = {
-                    defaults: {
-                        tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
-                        maxZoom: 18,
-                        zoomControlPosition: 'bottomleft'
-                    },
-                    markers: {},
-                    paths: {
-                        p1: {
-                            color: 'red',
-                            weight: 8,
-                            latlngs: [
-                                { lng: 7.25922327, lat: 43.7706378 },
-                                { lng: 7.2592822, lat: 43.77025479 },
-                                { lng: 7.25926924, lat: 43.77006933 },
-                                { lng: 7.25924181, lat: 43.76996763 }
-                            ],
-                            message: "<h3>Le Circuit de Lombardie</h3><p>Distance: 4.9km</p>",
-                        }
-                    },
-
-                    events: {
-                        map: {
-                            enable: ['context'],
-                            logic: 'emit'
-                        }
-                    },
-
-                    vttPaths: {}
-
-                };
-                $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
-                    $scope.vttPaths = data;
-                });
-                for (var i = LocationsService.savedLocations.length - 1; i >= 0; i--) {
-                    $scope.show(i);
-                };
-
-                $scope.goTo(0);
+            $scope.goTo(0);
 
         });
+             //$scope.locations = LocationsService.savedLocations;
+            /*$scope.map = {
+                defaults: {
+                    tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
+                    maxZoom: 18,
+                    zoomControlPosition: 'bottomleft'
+                },
+                markers: {},
+                paths: {
+                    p1: {
+                        color: 'red',
+                        weight: 8,
+                        latlngs: [
+                            { lng: 7.25922327, lat: 43.7706378 },
+                            { lng: 7.2592822, lat: 43.77025479 },
+                            { lng: 7.25926924, lat: 43.77006933 },
+                            { lng: 7.25924181, lat: 43.76996763 }
+                        ],
+                        message: "<h3>Le Circuit de Lombardie</h3><p>Distance: 4.9km</p>",
+                    }
+                },
+
+                events: {
+                    map: {
+                        enable: ['context'],
+                        logic: 'emit'
+                    }
+                },
+
+                
+
+            };*/
+
         $scope.loadPaths = function loadPaths() {
-            $http.get('json/sentiers-vtt-nca-1.json.json').success(function (data) {
+            $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
                 $scope.vttPaths = data;
             });
         };
@@ -107,16 +107,10 @@ angular.module('casa').controller('MapController',
             this.name = "";
         };
         // legende
-        /* Paysages=green
-        Histoire=red
-        Religieux=grey
-        Vernaculaire=yellow
-        Artistique =purple
-        Contemporain=orange*/
         $scope.legend = {
             position: 'bottomleft',
-            colors: ['#40bf58'],
-            labels: ['Le Circuit de Lombardie']
+            colors: ['#F00'],
+            labels: ['La Fubia']
         };
         /**
          * popupClick
@@ -192,13 +186,13 @@ angular.module('casa').controller('MapController',
 
             var poi = LocationsService.savedLocations[locationKey];
 
-            $scope.map.center = {
+            /*$scope.map.center = {
                 lat: poi.lat,
                 lng: poi.lng,
                 zoom: 12
-            };
-            // inutile finalement: https://github.com/coryasilva/Leaflet.ExtraMarkers
-            $scope.map.markers[locationKey] = {
+            };*/
+            // 
+            $scope.markers[locationKey] = {
                 lat: poi.lat,
                 lng: poi.lng,
                 message: '<span><a ng-click="popupClick(\'' + poi.url + '\')"><img ng-src="' + poi.vignette + '"></img><h3>' + poi.name + '</h3><br />' + poi.sousTitre + '</a></span><br />',
@@ -218,7 +212,7 @@ angular.module('casa').controller('MapController',
             var poi = LocationsService.savedLocations[locationKey];
 
             //console.log("redMarker " + redMarker);icon: {iconUrl: 'img/icones/' + poi.icon}
-            $scope.map.markers[locationKey] = {
+            $scope.markers[locationKey] = {
                 lat: poi.lat,
                 lng: poi.lng,
                 icon: eval(poi.icon),

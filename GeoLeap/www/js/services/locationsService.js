@@ -22,16 +22,6 @@ angular.module('casa').factory('LocationsService', [ function() {
         lat: 43.7706378,
         lng: 7.25922327,
         icon: 'local_icons.red_icon'
-    },
-    {
-        id: 2,
-        name: 'Le Circuit de Lombardie',
-        sousTitre: 'Route de l Iera / Parking du stade DENIVELE: 272, DISTANCE: 4.9, ALT_MAXI: 262',
-        url: '/app/parcours/24',
-        vignette: 'img/vignettes/icone.jpg',
-        lat: 43.77025479,
-        lng: 7.2592822,
-        icon: 'local_icons.red_icon'
     }
 
 
