@@ -68,7 +68,6 @@ angular.module('casa').controller('MapController',
                 $scope.vttPaths = {};//
                 for (var i = 0; i < data.docs.length; i++) {
                     //for (var j = 0; j < data.docs[i].geometry.coordinates.length; j++) {
-                    if (i < 28) {
                         var parcours = data.docs[i].geometry.coordinates[0];
                         var latlong = parcours[0];
                         if (latlong[0] !== undefined) {
@@ -85,7 +84,6 @@ angular.module('casa').controller('MapController',
                                 getMessageScope: function () { return $scope; }
                             };
                         }
-                    }
                     console.log(i);
                     /*NEARLY THERE $scope.vttPaths["p" + i] = {
                         weight: 42, color: "green", message: "<h3>" + data.docs[i].NOM +
