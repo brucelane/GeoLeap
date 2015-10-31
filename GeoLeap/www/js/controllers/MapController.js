@@ -80,11 +80,13 @@ angular.module('casa').controller('MapController',
              
                 $scope.vttPaths = {};
                 for (var i = 0; i < data.docs.length; i++) {
-                    var parcours = data.docs[0].geometry.coordinates[i];
+                    for (var j = 0; j < data.docs[i].geometry.coordinates.length; j++) {
+                    var parcours = data.docs[i].geometry.coordinates[j];
                     var latlong = parcours[0];
                     
                     $scope.vttPaths["p" + i] = {weight:8, color:"green", message:"<p>Distance: 4.9km</p>"};
                     $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })
+                    }
                 }
                 
             });
@@ -222,11 +224,11 @@ angular.module('casa').controller('MapController',
             $cordovaGeolocation
               .getCurrentPosition()
               .then(function (position) {
-                  $scope.map.center.lat = position.coords.latitude;
-                  $scope.map.center.lng = position.coords.longitude;
-                  $scope.map.center.zoom = 15;
+                  $scope.center.lat = position.coords.latitude;
+                  $scope.center.lng = position.coords.longitude;
+                  $scope.center.zoom = 12;
 
-                  $scope.map.markers.now = {
+                  $scope.markers.now = {
                       lat: position.coords.latitude,
                       lng: position.coords.longitude,
                       message: "Vous êtes ici",
