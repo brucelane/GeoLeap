@@ -62,42 +62,31 @@ angular.module('casa').controller('MapController',
             $scope.goTo(0);
 
         });
-             //$scope.locations = LocationsService.savedLocations;
-            /*$scope.map = {
-                defaults: {
-                    tileLayer: 'http://tile.stamen.com/watercolor/{z}/{x}/{y}.png',
-                    maxZoom: 18,
-                    zoomControlPosition: 'bottomleft'
-                },
-                markers: {},
-                paths: {
-                    p1: {
-                        color: 'red',
-                        weight: 8,
-                        latlngs: [
-                            { lng: 7.25922327, lat: 43.7706378 },
-                            { lng: 7.2592822, lat: 43.77025479 },
-                            { lng: 7.25926924, lat: 43.77006933 },
-                            { lng: 7.25924181, lat: 43.76996763 }
-                        ],
-                        message: "<h3>Le Circuit de Lombardie</h3><p>Distance: 4.9km</p>",
-                    }
-                },
-
-                events: {
-                    map: {
-                        enable: ['context'],
-                        logic: 'emit'
-                    }
-                },
-
-                
-
-            };*/
-
+           
+        /*
+    "p1": {
+        "color": "red",
+        "weight": 8,
+        "latlngs": [
+            { "lat": 51.50, "lng": -0.082 },
+            { "lat": 48.83, "lng": 2.37 },
+            { "lat": 41.91, "lng": 12.48 }
+        ],
+        "message": "<h3>Route from London to Rome</h3><p>Distance: 1862km</p>"
+    }
+        */
         $scope.loadPaths = function loadPaths() {
             $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
-                $scope.vttPaths = data;
+             
+                $scope.vttPaths = {};
+                for (var i = 0; i < data.docs.length; i++) {
+                    var parcours = data.docs[0].geometry.coordinates[i];
+                    var latlong = parcours[0];
+                    
+                    $scope.vttPaths["p" + i] = {weight:8, color:"green"};
+                    $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })
+                }
+                
             });
         };
         var Location = function () {
