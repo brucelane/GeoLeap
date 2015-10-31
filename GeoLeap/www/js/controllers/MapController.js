@@ -36,14 +36,13 @@ angular.module('casa').controller('MapController',
 
             $scope.markers = {};
             $scope.locations = LocationsService.savedLocations;
-            $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
-                $scope.vttPaths = data;
-            });
+
             for (var i = LocationsService.savedLocations.length - 1; i >= 0; i--) {
                 $scope.show(i);
             };
 
             $scope.goTo(0);
+            console.log("loaded");
             $scope.loadPaths();
         });
 
@@ -62,16 +61,32 @@ angular.module('casa').controller('MapController',
     }
         */
         $scope.loadPaths = function loadPaths() {
+                console.log("loadPaths");
             $http.get('json/sentiers-vtt-nca-1.json').success(function (data) {
+                console.log("loadPaths ok");
 
                 $scope.vttPaths = {};//
                 for (var i = 0; i < data.docs.length; i++) {
                     //for (var j = 0; j < data.docs[i].geometry.coordinates.length; j++) {
-
-
-                    var parcours = data.docs[i].geometry.coordinates[0];
-                    var latlong = parcours[0];
-
+                    if (i < 28) {
+                        var parcours = data.docs[i].geometry.coordinates[0];
+                        var latlong = parcours[0];
+                        if (latlong[0] !== undefined) {
+                            $scope.markers[i] = {
+                                lat: latlong[1],
+                                lng: latlong[0],
+                                message: "<span><h3>" + data.docs[i].NOM +
+                                    "</h3><p>Commune: " + data.docs[i].COMMUNE + "</p><p>Distance: " + data.docs[i].DISTANCE + "km</p><p>Départ: "
+                                    + data.docs[i].DEPART + "</p><p>Altitude maximum: "
+                                    + data.docs[i].ALT_MAXI + "m</p><p>Difficulté: " + data.docs[i].DIFFICULTE + ", dénivelé: " + data.docs[i].DENIVELE + "</p></span><br />",
+                                icon: local_icons.purple_icon,
+                                focus: true,
+                                draggable: false,
+                                getMessageScope: function () { return $scope; }
+                            };
+                        }
+                    }
+                    console.log(i);
                     /*NEARLY THERE $scope.vttPaths["p" + i] = {
                         weight: 42, color: "green", message: "<h3>" + data.docs[i].NOM +
                             "</h3><p>Commune: " + data.docs[i].COMMUNE + "</p><p>Distance: " + data.docs[i].DISTANCE + "km</p><p>Départ: "
@@ -80,28 +95,12 @@ angular.module('casa').controller('MapController',
                     };
                     $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })*/
                     //}
-                    $scope.markers[i] = {
-                        lat: latlong[1],
-                        lng: latlong[0],
-                        message: "<span><h3>" + data.docs[i].NOM +
-                            "</h3><p>Commune: " + data.docs[i].COMMUNE + "</p><p>Distance: " + data.docs[i].DISTANCE + "km</p><p>Départ: "
-                            + data.docs[i].DEPART + "</p><p>Altitude maximum: "
-                            + data.docs[i].ALT_MAXI + "m</p><p>Difficulté: " + data.docs[i].DIFFICULTE + ", dénivelé: " + data.docs[i].DENIVELE + "</p></span><br />",
-                        icon: local_icons.purple_icon,
-                        focus: true,
-                        draggable: false,
-                        getMessageScope: function () { return $scope; }
-                    };
+
                 }
 
             });
         };
-        var Location = function () {
-            if (!(this instanceof Location)) return new Location();
-            this.lat = "";
-            this.lng = "";
-            this.name = "";
-        };
+
         // legende
         $scope.legend = {
             position: 'bottomleft',
@@ -117,7 +116,7 @@ angular.module('casa').controller('MapController',
             if (destinationUrl === 'undefined') {
                 console.log("popupClick url undefined");
             } else {
-               // $location.path(destinationUrl);
+                // $location.path(destinationUrl);
             }
         }
         // icones markers
@@ -180,7 +179,7 @@ angular.module('casa').controller('MapController',
          */
         $scope.goTo = function (locationKey) {
 
-            var poi = LocationsService.savedLocations[locationKey];
+            /*var poi = LocationsService.savedLocations[locationKey];
 
             // 
             $scope.markers[locationKey] = {
@@ -191,7 +190,7 @@ angular.module('casa').controller('MapController',
                 focus: true,
                 draggable: false,
                 getMessageScope: function () { return $scope; }
-            };
+            };*/
 
         };
         /**
@@ -199,7 +198,7 @@ angular.module('casa').controller('MapController',
          * @param locationKey
          */
         $scope.show = function (locationKey) {
-
+            /*
             var poi = LocationsService.savedLocations[locationKey];
             $scope.markers[locationKey] = {
                 lat: poi.lat,
@@ -209,7 +208,7 @@ angular.module('casa').controller('MapController',
                 focus: false,
                 draggable: false,
                 getMessageScope: function () { return $scope; }
-            };
+            };*/
 
         };
 
