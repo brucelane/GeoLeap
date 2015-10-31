@@ -15,18 +15,18 @@ angular.module('casa', ['ionic', 'leaflet-directive', 'ngCordova', 'igTruncate',
           // for form inputs)
           /* 20150922 BL*/
           if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
-          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-          window.cordova.plugins.Keyboard.disableScroll(true);
-        }
-            //filesystem
-              /*alert('cordova.file.dataDirectory: ' + cordova); //I get [object Object]
-              alert('cordova.file.dataDirectory: ' + cordova.file.dataDirectory); // I get file is undefined
-              $cordovaFile.writeFile(cordova.file.dataDirectory, 'surveys.json', $scope.surveys, true).then(function (result) {
-                  alert('Success! Survey created!');
-              }, function (err) {
-                  console.log("ERROR");
-              })*/
-          
+              cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+              window.cordova.plugins.Keyboard.disableScroll(true);
+          }
+          //filesystem
+          /*alert('cordova.file.dataDirectory: ' + cordova); //I get [object Object]
+          alert('cordova.file.dataDirectory: ' + cordova.file.dataDirectory); // I get file is undefined
+          $cordovaFile.writeFile(cordova.file.dataDirectory, 'surveys.json', $scope.surveys, true).then(function (result) {
+              alert('Success! Survey created!');
+          }, function (err) {
+              console.log("ERROR");
+          })*/
+
           if (window.StatusBar) {
               StatusBar.styleDefault();
           }
@@ -51,33 +51,6 @@ angular.module('casa', ['ionic', 'leaflet-directive', 'ngCordova', 'igTruncate',
                 }
             }
         })
-        .state('app.ar', {
-            url: "/ar",
-            views: {
-                'menuContent': {
-                    templateUrl: "templates/ar.html",
-                    controller: 'ARController'
-                }
-            }
-        })
-        /*.state('app.arimage', {
-            url: "/arimage",
-            views: {
-                'menuContent': {
-                    templateUrl: "templates/arimage.html",
-                    controller: 'ARImageController'
-                }
-            }
-        })
-        .state('app.bjs', {
-            url: "/bjs",
-            views: {
-                'menuContent': {
-                    templateUrl: "templates/bjs.html",
-                    controller: 'BJSController'
-                }
-            }
-        })*/
          .state('app.apropos', {
              url: "/apropos",
              views: {
@@ -95,114 +68,6 @@ angular.module('casa', ['ionic', 'leaflet-directive', 'ngCordova', 'igTruncate',
             }
         }
     })
-      .state('app.parcours', {
-          url: '/parcours',
-          views: {
-              'menuContent': {
-                  templateUrl: 'templates/parcours.html',
-                  controller: 'ParcoursController'
-              }
-          }
-      })
-     /* .state('app.detail-paysage', {
-          url: '/paysages/:paysageId',
-          views: {
-              'menuContent': {
-                  templateUrl: 'templates/detail-paysage.html',
-                  controller: 'DetailPaysageController'
-              }
-          }
-      })
-    .state('app.histoire', {
-        url: '/histoire',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/histoire.html',
-                controller: 'HistoireController'
-            }
-        }
-    })
-    .state('app.detail-histoire', {
-        url: '/histoire/:histoireId',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/detail-histoire.html',
-                controller: 'DetailHistoireController'
-            }
-        }
-    })
-    .state('app.religieux', {
-        url: '/religieux',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/religieux.html',
-                controller: 'ReligieuxController'
-            }
-        }
-    })
-    .state('app.detail-religieux', {
-        url: '/religieux/:rId',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/detail-religieux.html',
-                controller: 'DetailReligieuxController'
-            }
-        }
-    })
-    .state('app.vernaculaire', {
-        url: '/vernaculaire',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/vernaculaire.html',
-                controller: 'VernaculairesController'
-            }
-        }
-    })
-    .state('app.detail-vernaculaire', {
-        url: '/vernaculaire/:vId',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/detail-vernaculaire.html',
-                controller: 'DetailVernaculaireController'
-            }
-        }
-    })
-    .state('app.contemporain', {
-        url: '/contemporain',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/contemporain.html',
-                controller: 'ContemporainController'
-            }
-        }
-    })
-    .state('app.detail-contemporain', {
-        url: '/contemporain/:cId',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/detail-contemporain.html',
-                controller: 'DetailContemporainController'
-            }
-        }
-    })
-    .state('app.artistique', {
-        url: '/artistique',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/artistique.html',
-                controller: 'ArtistiquesController'
-            }
-        }
-    })
-    .state('app.detail-artistique', {
-        url: '/artistique/:artistiqueId',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/detail-artistique.html',
-                controller: 'DetailArtistiqueController'
-            }
-        }
-    })*/
 
       $urlRouterProvider.otherwise("/app/accueil");
   });

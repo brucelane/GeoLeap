@@ -60,7 +60,7 @@ angular.module('casa').controller('MapController',
             };
 
             $scope.goTo(0);
-
+            $scope.loadPaths();
         });
            
         /*
@@ -83,7 +83,7 @@ angular.module('casa').controller('MapController',
                     var parcours = data.docs[0].geometry.coordinates[i];
                     var latlong = parcours[0];
                     
-                    $scope.vttPaths["p" + i] = {weight:8, color:"green"};
+                    $scope.vttPaths["p" + i] = {weight:8, color:"green", message:"<p>Distance: 4.9km</p>"};
                     $scope.vttPaths["p" + i].latlngs = parcours.map(function (ll) { return { "lat": latlong[1], "lng": latlong[0] } })
                 }
                 
