@@ -1,3 +1,4 @@
+//http://tombatossals.github.io/angular-leaflet-directive/examples/json/paths.json
 angular.module('casa').controller('MapController',
   ['$scope',
     "$http",
